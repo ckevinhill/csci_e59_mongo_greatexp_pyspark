@@ -3,7 +3,8 @@ dynamic = ["version"]
 name = "data_pipeline"
 dependencies = [
     'pymongo',
-    'gdh @ git+ssh://git@github.com/procter-gamble/gdh-pipeline-utils.git'
+    'gdh @ git+ssh://git@github.com/procter-gamble/gdh-pipeline-utils.git',
+    'python-dotenv'
 ]
 requires-python = ">3.7"
 
@@ -19,5 +20,3 @@ addopts = "--cov-branch"
 testpaths = [
     "tests"
 ]
-filterwarnings =
-    ignore::DeprecationWarning

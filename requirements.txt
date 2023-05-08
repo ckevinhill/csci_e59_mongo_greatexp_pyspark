@@ -1,1 +1,3 @@
 pymongo
+gdh @ git+ssh://git@github.com/procter-gamble/gdh-pipeline-utils.git
+python-dotenv

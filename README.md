@@ -1,20 +1,34 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# CSCI-E59 Final Project Repository
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+This provides code and examples for CSCSI-E59: Designing and Developing Relational and NoSQL Databases.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Project Objectives
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+A Data Pipeline (ETL, etc) is only useful if you can guarantee the QUALITY of the resulting data.  To that end this project will explore the application and collection of validation data generated via the Great Expectations Data Quality management framework.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Learning Objectives:
+
+* Implementation and configuration of the Great Expectations validation framework
+* Setup and use of MongoDB for storage of JSON documents
+* JSON collection aggregation and summarization for reporting
+* Integration of MongoDB with Spark for downstream processing
+
+## Key Components
+
+* MongoDB environment stand-up via [docker-compose](docker-compose.yml)
+* [Data Generation](src/data-pipeline.py) via Great Expectations
+* MongoDB [Aggregation Pipeline creation](src/create-aggregation-pipelines.py) via PyMongo
+* [PySpark DataFrame creation](src/pyspark-reporting.py) via Mongo-Spark Connector
+
+Environmental Variable File (.env) will need to be created with the following variables, examples below:
+
+```bash
+MONGO_ROOT_USER=root
+MONGO_ROOT_PASSWORD=password
+VERIFICATION_MONGO_CONNECTION_STR=mongodb://root:password@localhost:27017
+VERIFICATION_MONGO_DB_NAME=verification_results
+```
+
+## Presentation Material
+
+Final presentation material (high-level) can be found [here](presentation_material/Final%20Presentation.pptx).

@@ -1,3 +1,7 @@
+# Example data pipeline to enable data generation
+# Executes pipeline multiple times with various randomly selected
+# values to create both successful and unsuccessful data frame validations
+
 from data_pipeline.datatypes import (
     ExampleInputDataFrame,
     ExampleOutputDataFrame,
@@ -22,10 +26,10 @@ load_dotenv()
 SparkSession.builder.appName("Validation_Data_Generator").getOrCreate()
 
 
-# Execute Pipeline:
+# Execute Pipeline multiple times to generate data:
 for x in range(1500):
     try:
-        # Properties associated with Pipeline:
+        # Simulate multiple pipelines:
         pipeline_names = [
             "CSCI-E58-Pipeline",
             "Final-Project-Pipeline",
@@ -36,6 +40,8 @@ for x in range(1500):
 
         pipeline_name = random.choice(pipeline_names)
 
+        # Define pipeline characteristics including
+        # MongoDB back-end serializer:
         metadata = {
             PipelineMetadata.PIPELINE_NAME: pipeline_name,
             PipelineMetadata.EXECUTION_DATE: round(
@@ -66,8 +72,7 @@ for x in range(1500):
         )
 
         output_df = pipeline.run_pipeline()
-        print("Output DF:")
-        output_df.spark_df.show()
+        print("Pipeline successful")
 
     except ValidationException:
         print("Data validation error thrown.")

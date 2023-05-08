@@ -1,9 +1,10 @@
+# Example of Creating Standard Views (Aggregations)
+# in MongoDB via PyMongo
+
 from pymongo import MongoClient
 from pprint import pprint
 import os
 from dotenv import load_dotenv
-
-CREATE_VIEW = True
 
 
 def get_database():
@@ -21,7 +22,7 @@ def get_database():
 
 
 def create_view(dbname, view_name, aggregation_pipeline):
-    # Create Collection-View:
+    # Utility function to create Collection-View:
     dbname.command(
         {
             "create": view_name,
@@ -86,6 +87,7 @@ def get_pipeline_failures_view():
 
 def get_pipeline_common_failures_view():
     # Group by pipeline, expected & colummn
+    # Extends Pipeline Failure View
     aggregation_pipeline = get_pipeline_failures_view()
     aggregation_pipeline.append(
         {
@@ -103,7 +105,6 @@ def get_pipeline_common_failures_view():
     return aggregation_pipeline
 
 
-# This is added so that many files can reuse the function get_database()
 if __name__ == "__main__":
     # Load environmental variables:
     load_dotenv()
@@ -112,6 +113,7 @@ if __name__ == "__main__":
     dbname = get_database()
     collection = dbname["pipeline"]
 
+    # Select desired aggregation:
     # aggregation_pipeline = get_statistics_aggregation_pipeline()
     # aggregation_pipeline = get_pipeline_failures_view()
     aggregation_pipeline = get_pipeline_common_failures_view()
@@ -120,6 +122,7 @@ if __name__ == "__main__":
     results = collection.aggregate(aggregation_pipeline)
     pprint(list(results))
 
+    # Output explain plan for diagnostics:
     explain_output = dbname.command(
         "explain",
         {"aggregate": "pipeline", "pipeline": aggregation_pipeline, "cursor": {}},
@@ -127,7 +130,9 @@ if __name__ == "__main__":
     )
     pprint(explain_output)
 
+    # Create view if desired:
     # create_view(dbname, "pipeline_summary_statistics_view", aggregation_pipeline)
     # create_view(dbname, "pipeline_failures_view", aggregation_pipeline)
     # create_view(dbname, "pipeline_common_failures_view", aggregation_pipeline)
+
     print("done")
